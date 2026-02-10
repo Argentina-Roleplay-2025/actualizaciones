@@ -3,1760 +3,2451 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Argentina Roleplay - Comunidad Profesional ER:LC</title>
+<title>Argentina Roleplay | La Mejor Experiencia ER:LC</title>
+<meta name="description" content="Únete a la mejor comunidad de Roleplay argentino en ER:LC con más de 1600 miembros activos. Facciones, eventos, economía balanceada y mucho más."/>
 <link rel="icon" href="https://media.discordapp.net/attachments/1349870170893451400/1456790768491561235/image.png?ex=698a6d21&is=69891ba1&hm=f2554f10d3ac7f023c01efed2b462cc883bd847c1bfff0139e926e8e35b2da2d&=&format=webp&quality=lossless&width=527&height=527"/>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
-:root {
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #141824;
-  --bg-tertiary: #1a1f2e;
-  --bg-card: rgba(26, 31, 46, 0.6);
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.12);
-  --accent-cyan: #00d9ff;
-  --accent-cyan-soft: rgba(0, 217, 255, 0.1);
-  --accent-gold: #ffc107;
-  --accent-red: #ff3d57;
-  --accent-green: #00ff88;
-  --text-primary: #ffffff;
-  --text-secondary: #b4b9c8;
-  --text-tertiary: #8891a8;
+:root{
+  --noir:#0a0e1a;
+  --charcoal:#141824;
+  --steel:#1e2433;
+  --cyan:#00ffff;
+  --electric:#0ff;
+  --neon:#39ff14;
+  --hot:#ff006e;
+  --gold:#ffd700;
+  --silver:#c0c0c0;
+  --ghost:rgba(255,255,255,.03);
+  --mist:rgba(255,255,255,.08);
+  --fog:rgba(255,255,255,.15);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+html{
+  scroll-behavior:smooth;
 }
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  overflow-x: hidden;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body{
+  font-family:Rajdhani,sans-serif;
+  background:#000;
+  color:#fff;
+  overflow-x:hidden;
+  line-height:1.6;
+  position:relative;
+  cursor:none;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
+/* Custom Cursor */
+.cursor{
+  width:20px;
+  height:20px;
+  border:2px solid var(--cyan);
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  z-index:9999;
+  transition:transform .1s ease,opacity .3s ease;
+  opacity:0;
 }
 
-/* ==================== NAVIGATION ==================== */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(10, 14, 26, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-subtle);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.cursor-follower{
+  width:40px;
+  height:40px;
+  background:rgba(0,255,255,.2);
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  z-index:9998;
+  transition:transform .15s ease,opacity .3s ease;
+  opacity:0;
+  box-shadow:0 0 20px rgba(0,255,255,.5);
 }
 
-nav.scrolled {
-  background: rgba(10, 14, 26, 0.98);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+body:hover .cursor,
+body:hover .cursor-follower{
+  opacity:1;
 }
 
-.nav-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+/* Loading Screen */
+.loading-screen{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,#0a0e1a,#141824);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+  transition:opacity .5s ease,visibility .5s ease;
 }
 
-.logo-box {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-  transition: opacity 0.3s ease;
-  z-index: 1001;
+.loading-screen.hidden{
+  opacity:0;
+  visibility:hidden;
 }
 
-.logo-box:hover {
-  opacity: 0.85;
+.loader{
+  width:80px;
+  height:80px;
+  border:4px solid rgba(0,255,255,.2);
+  border-top:4px solid var(--cyan);
+  border-radius:50%;
+  animation:spin 1s linear infinite;
 }
 
-.logo-circle {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 16px;
-  color: #000;
-  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.3);
+@keyframes spin{
+  to{transform:rotate(360deg)}
 }
 
-.brand-text h1 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-  letter-spacing: -0.5px;
+.loading-text{
+  margin-top:30px;
+  font-family:Orbitron,sans-serif;
+  font-size:20px;
+  color:var(--cyan);
+  letter-spacing:3px;
 }
 
-.brand-text small {
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--text-tertiary);
-  font-size: 11px;
-  letter-spacing: 0.3px;
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  opacity:.6;
 }
 
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  z-index: 1001;
-  transition: all 0.3s ease;
+.wrap{
+  position:relative;
+  z-index:10;
+  min-height:100vh;
 }
 
-.hamburger span {
-  width: 26px;
-  height: 2px;
-  background: var(--text-primary);
-  border-radius: 2px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.container{
+  max-width:1400px;
+  margin:0 auto;
+  padding:0 24px;
 }
 
-.hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(7px, 7px);
+/* Navigation - IMPROVED */
+nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+  backdrop-filter:blur(20px);
+  background:rgba(10,14,26,.85);
+  border-bottom:1px solid var(--mist);
+  transition:all .3s ease;
+  box-shadow:0 4px 30px rgba(0,0,0,.3);
 }
 
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
+nav.scrolled{
+  background:rgba(10,14,26,.98);
+  box-shadow:0 8px 32px rgba(0,255,255,.15);
+  border-bottom:1px solid rgba(0,255,255,.3);
 }
 
-.hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
+.nav-content{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 24px;
+  max-width:1600px;
+  margin:0 auto;
+  gap:20px;
 }
 
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  list-style: none;
+.logo-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  transition:.3s;
+  flex-shrink:0;
 }
 
-.nav-links a {
-  padding: 10px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--text-secondary);
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-  transition: all 0.3s ease;
-  position: relative;
+.logo-box:hover{
+  transform:translateX(4px);
 }
 
-.nav-links a:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
+.logo-circle{
+  width:50px;
+  height:50px;
+  background:linear-gradient(135deg,var(--cyan),var(--electric));
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Orbitron,sans-serif;
+  font-weight:900;
+  font-size:16px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 30px rgba(0,255,255,.5),inset 0 0 15px rgba(255,255,255,.2);
+  animation:logoPulse 3s ease-in-out infinite;
 }
 
-.nav-links a.active {
-  color: var(--accent-cyan);
+@keyframes logoPulse{
+  0%,100%{box-shadow:0 0 30px rgba(0,255,255,.5),inset 0 0 15px rgba(255,255,255,.2)}
+  50%{box-shadow:0 0 50px rgba(0,255,255,.8),inset 0 0 25px rgba(255,255,255,.3)}
 }
 
-.nav-links a.cta-btn {
-  background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-  color: #000;
-  font-weight: 600;
-  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.3);
+.logo-circle::before{
+  content:'';
+  position:absolute;
+  inset:-20%;
+  background:conic-gradient(from 0deg,transparent,rgba(255,255,255,.6),transparent);
+  animation:logoSpin 4s linear infinite;
 }
 
-.nav-links a.cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0, 217, 255, 0.4);
+@keyframes logoSpin{
+  to{transform:rotate(360deg)}
 }
 
-/* ==================== HERO SECTION ==================== */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, rgba(10, 14, 26, 0.95), rgba(20, 24, 36, 0.9)), 
-              url('https://chatgpt.com/backend-api/estuary/content?id=file_000000007fd471f68051ef69301f3c86&ts=491856&p=fs&cid=1&sig=e23c1c5d122ef0cdb3e0fb3f9fadb374f52b66c877a5e0f6ab18282b6c27e6b1&v=0') center/cover no-repeat;
-  background-attachment: fixed;
-  padding: 120px 0 80px;
-  overflow: hidden;
+.brand-text h1{
+  font-family:Orbitron,sans-serif;
+  font-size:18px;
+  font-weight:700;
+  background:linear-gradient(90deg,var(--cyan),var(--electric),#fff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin:0;
+  text-transform:uppercase;
+  letter-spacing:2px;
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 0%, var(--bg-primary) 100%);
-  pointer-events: none;
+.brand-text small{
+  font-family:JetBrains Mono,monospace;
+  color:var(--silver);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  display:block;
+  margin-top:2px;
 }
 
-.hero-content {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto;
-  animation: fadeInUp 0.8s ease;
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  list-style:none;
+  flex-wrap:wrap;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+.nav-links a{
+  padding:10px 20px;
+  border-radius:8px;
+  text-decoration:none;
+  color:var(--silver);
+  font-weight:600;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  transition:all .3s ease;
+  position:relative;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+.nav-links a::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:var(--ghost);
+  transform:translateY(100%);
+  transition:.3s;
+}
+
+.nav-links a:hover::before{
+  transform:translateY(0);
+}
+
+.nav-links a:hover{
+  color:var(--cyan);
+  transform:translateY(-2px);
+}
+
+.nav-links a.active{
+  color:var(--cyan);
+  background:rgba(0,255,255,.1);
+  box-shadow:0 0 20px rgba(0,255,255,.2);
+}
+
+.cta-btn{
+  background:linear-gradient(135deg,var(--cyan),var(--electric))!important;
+  color:#000!important;
+  font-weight:900!important;
+  box-shadow:0 6px 25px rgba(0,255,255,.4)!important;
+}
+
+.cta-btn:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:0 10px 40px rgba(0,255,255,.7)!important;
+}
+
+.mobile-toggle{
+  display:none;
+  background:rgba(0,255,255,.1);
+  border:1px solid var(--cyan);
+  border-radius:8px;
+  padding:8px;
+  cursor:pointer;
+  flex-direction:column;
+  gap:4px;
+  transition:.3s;
+}
+
+.mobile-toggle:hover{
+  background:rgba(0,255,255,.2);
+  box-shadow:0 0 20px rgba(0,255,255,.3);
+}
+
+.mobile-toggle span{
+  display:block;
+  width:24px;
+  height:2px;
+  background:#fff;
+  transition:.3s;
+  border-radius:2px;
+}
+
+.mobile-toggle.active span:nth-child(1){
+  transform:rotate(45deg) translate(5px,5px);
+}
+
+.mobile-toggle.active span:nth-child(2){
+  opacity:0;
+}
+
+.mobile-toggle.active span:nth-child(3){
+  transform:rotate(-45deg) translate(7px,-6px);
+}
+
+/* Hero Section - IMPROVED */
+.hero{
+  padding:180px 0 120px;
+  position:relative;
+  overflow:hidden;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.hero::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  height:100%;
+  background:radial-gradient(ellipse at top,rgba(0,255,255,.2),transparent 70%);
+  pointer-events:none;
+  animation:pulseGradient 8s ease-in-out infinite;
+}
+
+@keyframes pulseGradient{
+  0%,100%{opacity:1}
+  50%{opacity:.6}
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  align-items:center;
+}
+
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(0,255,255,.1);
+  border:1px solid rgba(0,255,255,.4);
+  border-radius:50px;
+  padding:10px 24px;
+  font-family:JetBrains Mono,monospace;
+  font-size:12px;
+  font-weight:600;
+  color:var(--cyan);
+  margin-bottom:32px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  animation:fadeInUp .8s ease .1s both;
+}
+
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.pulse-dot{
+  width:10px;
+  height:10px;
+  background:var(--neon);
+  border-radius:50%;
+  animation:pulseGlow 2s infinite;
+  box-shadow:0 0 16px var(--neon);
+}
+
+@keyframes pulseGlow{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(1.2)}
+}
+
+.hero h1{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(36px,6vw,72px);
+  font-weight:900;
+  line-height:1.1;
+  margin-bottom:28px;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  animation:fadeInUp .8s ease .2s both;
+}
+
+.gradient-text{
+  background:linear-gradient(135deg,var(--cyan),var(--electric),var(--neon),var(--hot));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  background-size:300% 300%;
+  animation:gradientFlow 6s ease infinite;
+}
+
+@keyframes gradientFlow{
+  0%,100%{background-position:0 50%}
+  50%{background-position:100% 50%}
+}
+
+.hero p{
+  font-size:18px;
+  line-height:1.8;
+  color:var(--silver);
+  margin-bottom:40px;
+  max-width:600px;
+  animation:fadeInUp .8s ease .3s both;
+}
+
+.hero-actions{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  animation:fadeInUp .8s ease .4s both;
+}
+
+.btn{
+  padding:16px 36px;
+  border-radius:12px;
+  text-decoration:none;
+  font-family:Rajdhani,sans-serif;
+  font-weight:700;
+  font-size:15px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  transition:all .3s ease;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  position:relative;
+  overflow:hidden;
+  border:none;
+  cursor:pointer;
+}
+
+.btn::after{
+  content:'';
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle,rgba(255,255,255,.3),transparent);
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  transition:transform .5s ease;
+  border-radius:50%;
+}
+
+.btn:active::after{
+  transform:translate(-50%,-50%) scale(2);
+  transition:transform 0s;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--cyan),var(--electric));
+  color:#000;
+  box-shadow:0 10px 35px rgba(0,255,255,.4);
+}
+
+.btn-primary::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,var(--electric),var(--neon));
+  opacity:0;
+  transition:.3s;
+}
+
+.btn-primary:hover::before{
+  opacity:1;
+}
+
+.btn-primary:hover{
+  transform:translateY(-4px);
+  box-shadow:0 14px 50px rgba(0,255,255,.6);
+}
+
+.btn span{
+  position:relative;
+  z-index:1;
+}
+
+.btn-secondary{
+  background:var(--ghost);
+  color:#fff;
+  border:2px solid var(--cyan);
+  backdrop-filter:blur(10px);
+}
+
+.btn-secondary:hover{
+  background:rgba(0,255,255,.2);
+  transform:translateY(-4px);
+  box-shadow:0 10px 35px rgba(0,255,255,.3);
+}
+
+/* Stats Card - FIXED FOR MOBILE */
+.hero-visual{
+  position:relative;
+  animation:fadeInUp .8s ease .5s both;
+}
+
+.stats-mega{
+  position:relative;
+  background:linear-gradient(135deg,rgba(0,255,255,.08),rgba(57,255,20,.08));
+  backdrop-filter:blur(30px);
+  border:2px solid var(--mist);
+  border-radius:28px;
+  padding:40px;
+  box-shadow:0 25px 70px rgba(0,0,0,.6),0 0 50px rgba(0,255,255,.3);
+  animation:floatCard 8s ease-in-out infinite;
+}
+
+@keyframes floatCard{
+  0%,100%{transform:translateY(0) rotateY(0deg)}
+  50%{transform:translateY(-20px) rotateY(5deg)}
+}
+
+.stats-mega::before{
+  content:'';
+  position:absolute;
+  inset:-4px;
+  background:linear-gradient(45deg,var(--cyan),var(--neon),var(--hot),var(--cyan));
+  border-radius:28px;
+  opacity:.25;
+  filter:blur(15px);
+  z-index:-1;
+  animation:rotateBorder 6s linear infinite;
+}
+
+@keyframes rotateBorder{
+  to{transform:rotate(360deg)}
+}
+
+.stats-mega h3{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(24px,4vw,32px);
+  margin-bottom:12px;
+  background:linear-gradient(90deg,var(--cyan),#fff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  text-transform:uppercase;
+  text-align:center;
+}
+
+.stats-mega > p{
+  color:var(--silver);
+  margin-bottom:32px;
+  font-size:clamp(14px,2vw,16px);
+  text-align:center;
+  line-height:1.6;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:16px;
+  margin-bottom:32px;
+}
+
+.stat-box{
+  background:var(--ghost);
+  border:1px solid var(--mist);
+  border-radius:18px;
+  padding:20px;
+  text-align:center;
+  transition:all .3s ease;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  min-height:120px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.stat-box::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 0,rgba(0,255,255,.2),transparent 70%);
+  opacity:0;
+  transition:.3s;
+}
+
+.stat-box:hover::before{
+  opacity:1;
+}
+
+.stat-box:hover{
+  transform:translateY(-6px) scale(1.03);
+  border-color:var(--cyan);
+  box-shadow:0 10px 35px rgba(0,255,255,.3);
+}
+
+.stat-number{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(28px,4vw,38px);
+  font-weight:900;
+  background:linear-gradient(90deg,var(--cyan),var(--electric));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  display:block;
+  margin-bottom:8px;
+  line-height:1.2;
+}
+
+.stat-label{
+  font-family:JetBrains Mono,monospace;
+  font-size:clamp(9px,1.5vw,11px);
+  color:var(--silver);
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:600;
+  line-height:1.4;
+}
+
+/* Live Banner */
+.live-banner{
+  background:linear-gradient(135deg,rgba(57,255,20,.12),rgba(0,255,255,.12));
+  border:2px solid rgba(57,255,20,.4);
+  border-radius:24px;
+  padding:32px;
+  margin:80px 0;
+  position:relative;
+  overflow:hidden;
+}
+
+.live-banner::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);
+  animation:scan 4s infinite;
+}
+
+@keyframes scan{
+  to{left:100%}
+}
+
+.live-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:24px;
+  position:relative;
+  z-index:1;
+}
+
+.live-stat{
+  text-align:center;
+}
+
+.live-label{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:var(--silver);
+  font-family:JetBrains Mono,monospace;
+  font-size:clamp(10px,1.5vw,13px);
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:10px;
+}
+
+.live-dot{
+  width:10px;
+  height:10px;
+  background:var(--neon);
+  border-radius:50%;
+  animation:pulseGlow 2s infinite;
+  box-shadow:0 0 20px var(--neon);
+  flex-shrink:0;
+}
+
+.live-value{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(28px,5vw,40px);
+  font-weight:900;
+  background:linear-gradient(90deg,var(--neon),var(--cyan));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+/* Sections */
+section{
+  padding:100px 0;
+  position:relative;
+}
+
+.section-header{
+  text-align:center;
+  margin-bottom:80px;
+}
+
+.section-label{
+  display:inline-block;
+  background:rgba(255,0,110,.12);
+  border:1px solid rgba(255,0,110,.4);
+  border-radius:50px;
+  padding:10px 28px;
+  font-family:JetBrains Mono,monospace;
+  font-size:11px;
+  font-weight:700;
+  color:var(--hot);
+  margin-bottom:20px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.section-title{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(32px,5vw,56px);
+  font-weight:900;
+  margin-bottom:20px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--hot));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.section-desc{
+  font-size:clamp(16px,2vw,20px);
+  color:var(--silver);
+  max-width:700px;
+  margin:0 auto;
+  line-height:1.7;
+}
+
+/* Feature Cards */
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:28px;
+}
+
+.feature-card{
+  background:var(--ghost);
+  backdrop-filter:blur(15px);
+  border:1px solid var(--mist);
+  border-radius:24px;
+  padding:40px;
+  transition:all .4s ease;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+}
+
+.feature-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 0,rgba(0,255,255,.15),transparent 70%);
+  opacity:0;
+  transition:.4s;
+}
+
+.feature-card:hover::before{
+  opacity:1;
+}
+
+.feature-card:hover{
+  transform:translateY(-10px);
+  border-color:var(--cyan);
+  box-shadow:0 20px 60px rgba(0,255,255,.25);
+}
+
+.feature-icon{
+  width:68px;
+  height:68px;
+  background:linear-gradient(135deg,rgba(0,255,255,.2),rgba(57,255,20,.2));
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  margin-bottom:24px;
+  transition:.3s;
+}
+
+.feature-card:hover .feature-icon{
+  transform:scale(1.1) rotate(6deg);
+  box-shadow:0 10px 35px rgba(0,255,255,.4);
+}
+
+.feature-card h3{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(20px,3vw,24px);
+  font-weight:700;
+  margin-bottom:14px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.feature-card p{
+  color:var(--silver);
+  line-height:1.7;
+  font-size:clamp(14px,2vw,16px);
+}
+
+/* Faction Cards */
+.factions-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:28px;
+}
+
+.faction-card{
+  background:linear-gradient(135deg,var(--charcoal),var(--steel));
+  backdrop-filter:blur(15px);
+  border:1px solid var(--mist);
+  border-radius:26px;
+  overflow:hidden;
+  transition:all .4s ease;
+  position:relative;
+  cursor:pointer;
+}
+
+.faction-card::after{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:5px;
+  background:linear-gradient(90deg,var(--cyan),var(--electric),var(--neon),var(--hot));
+  background-size:300% 100%;
+  animation:gradientSlide 4s linear infinite;
+}
+
+@keyframes gradientSlide{
+  to{background-position:300% 50%}
+}
+
+.faction-card:hover{
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 28px 85px rgba(0,255,255,.35);
+  border-color:var(--cyan);
+}
+
+.faction-img{
+  height:220px;
+  background:linear-gradient(135deg,rgba(0,255,255,.25),rgba(255,0,110,.25));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:72px;
+  position:relative;
+  overflow:hidden;
+}
+
+.faction-img::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 50%,transparent 30%,rgba(10,14,26,.9));
+}
+
+.faction-content{
+  padding:36px;
+}
+
+.faction-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:start;
+  margin-bottom:16px;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.faction-card h3{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(20px,3vw,24px);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.faction-badge{
+  padding:8px 16px;
+  border-radius:24px;
+  font-family:JetBrains Mono,monospace;
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  background:linear-gradient(135deg,var(--cyan),var(--electric));
+  color:#000;
+  white-space:nowrap;
+  letter-spacing:1px;
+  flex-shrink:0;
+}
+
+.faction-card p{
+  color:var(--silver);
+  line-height:1.7;
+  margin-bottom:20px;
+  font-size:clamp(14px,2vw,15px);
+}
+
+.faction-stats{
+  display:flex;
+  gap:20px;
+  padding-top:20px;
+  border-top:1px solid var(--mist);
+  flex-wrap:wrap;
+}
+
+.faction-stat{
+  flex:1;
+  text-align:center;
+  min-width:120px;
+}
+
+.faction-stat-num{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(20px,4vw,26px);
+  font-weight:900;
+  background:linear-gradient(90deg,var(--cyan),var(--electric));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  display:block;
+}
+
+.faction-stat-lbl{
+  font-family:JetBrains Mono,monospace;
+  font-size:9px;
+  color:var(--silver);
+  text-transform:uppercase;
+  margin-top:6px;
+  letter-spacing:1px;
+}
+
+/* Membership Cards */
+.memberships-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:32px;
+  max-width:1400px;
+  margin:0 auto;
+}
+
+.member-card{
+  background:linear-gradient(135deg,rgba(10,14,26,.98),rgba(30,36,51,.98));
+  backdrop-filter:blur(15px);
+  border:3px solid var(--mist);
+  border-radius:30px;
+  padding:40px;
+  transition:all .4s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.member-card::before{
+  content:'';
+  position:absolute;
+  inset:-3px;
+  background:linear-gradient(135deg,var(--cyan),var(--electric),var(--hot));
+  border-radius:30px;
+  opacity:0;
+  transition:.4s;
+  z-index:-1;
+}
+
+.member-card:hover::before{
+  opacity:.35;
+}
+
+.member-card:hover{
+  transform:translateY(-12px) scale(1.03);
+  box-shadow:0 35px 100px rgba(0,255,255,.4);
+  border-color:var(--cyan);
+}
+
+.member-card.featured{
+  background:linear-gradient(135deg,rgba(255,0,110,.15),rgba(0,255,255,.15));
+  border-color:var(--hot);
+  transform:scale(1.05);
+}
+
+.member-card.featured::after{
+  content:'⚡ MÁS POPULAR';
+  position:absolute;
+  top:26px;
+  right:-40px;
+  background:linear-gradient(135deg,var(--hot),var(--gold));
+  color:#000;
+  padding:8px 50px;
+  font-family:Orbitron,sans-serif;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:2px;
+  transform:rotate(45deg);
+  box-shadow:0 6px 20px rgba(255,0,110,.5);
+}
+
+.member-header{
+  text-align:center;
+  margin-bottom:32px;
+}
+
+.member-icon{
+  width:80px;
+  height:80px;
+  background:linear-gradient(135deg,rgba(0,255,255,.25),rgba(255,0,110,.25));
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  margin:0 auto 20px;
+  box-shadow:0 10px 40px rgba(0,255,255,.4);
+}
+
+.member-title{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(24px,4vw,28px);
+  font-weight:700;
+  margin-bottom:10px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.member-price{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(48px,8vw,60px);
+  font-weight:900;
+  background:linear-gradient(90deg,var(--cyan),var(--hot));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin:24px 0;
+}
+
+.member-price small{
+  font-size:clamp(20px,3vw,24px);
+  opacity:.8;
+}
+
+.member-benefits{
+  list-style:none;
+  margin:32px 0;
+}
+
+.member-benefits li{
+  padding:14px 0;
+  color:var(--silver);
+  position:relative;
+  padding-left:38px;
+  font-size:clamp(14px,2vw,16px);
+  line-height:1.6;
+}
+
+.member-benefits li::before{
+  content:'✓';
+  position:absolute;
+  left:0;
+  width:26px;
+  height:26px;
+  background:linear-gradient(135deg,var(--cyan),var(--electric));
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#000;
+  font-weight:900;
+  font-size:13px;
+}
+
+.btn-member{
+  width:100%;
+  padding:20px;
+  background:linear-gradient(135deg,var(--cyan),var(--electric));
+  color:#000;
+  text-align:center;
+  border-radius:14px;
+  text-decoration:none;
+  font-family:Orbitron,sans-serif;
+  font-weight:900;
+  font-size:clamp(16px,2.5vw,18px);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  display:block;
+  margin-top:32px;
+  transition:all .3s ease;
+  border:none;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+
+.btn-member::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,var(--electric),var(--neon));
+  opacity:0;
+  transition:.3s;
+}
+
+.btn-member:hover::before{
+  opacity:1;
+}
+
+.btn-member span{
+  position:relative;
+  z-index:1;
+}
+
+.btn-member:hover{
+  transform:translateY(-4px);
+  box-shadow:0 14px 50px rgba(0,255,255,.6);
+}
+
+/* Testimonials */
+.testimonials-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:28px;
+}
+
+.testimonial-card{
+  background:var(--ghost);
+  backdrop-filter:blur(15px);
+  border:1px solid var(--mist);
+  border-radius:24px;
+  padding:36px;
+  transition:all .3s ease;
+  cursor:pointer;
+}
+
+.testimonial-card:hover{
+  transform:translateY(-8px);
+  border-color:var(--hot);
+  box-shadow:0 18px 55px rgba(255,0,110,.25);
+}
+
+.testimonial-rating{
+  display:flex;
+  gap:6px;
+  margin-bottom:18px;
+}
+
+.star{
+  color:var(--gold);
+  font-size:20px;
+}
+
+.testimonial-content{
+  color:var(--silver);
+  line-height:1.8;
+  margin-bottom:24px;
+  font-size:clamp(14px,2vw,16px);
+}
+
+.testimonial-author{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.author-avatar{
+  width:52px;
+  height:52px;
+  background:linear-gradient(135deg,var(--cyan),var(--hot));
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Orbitron,sans-serif;
+  font-weight:900;
+  font-size:20px;
+  flex-shrink:0;
+}
+
+.author-info h4{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(16px,2.5vw,18px);
+  font-weight:700;
+  margin-bottom:4px;
+}
+
+.author-info p{
+  font-family:JetBrains Mono,monospace;
+  font-size:clamp(10px,1.5vw,12px);
+  color:var(--silver);
+  text-transform:uppercase;
+}
+
+/* FAQ */
+.faq-container{
+  max-width:900px;
+  margin:0 auto;
+}
+
+.faq-item{
+  background:var(--ghost);
+  backdrop-filter:blur(15px);
+  border:1px solid var(--mist);
+  border-radius:18px;
+  margin-bottom:18px;
+  overflow:hidden;
+  transition:.3s;
+}
+
+.faq-item:hover{
+  border-color:var(--cyan);
+}
+
+.faq-question{
+  padding:24px 32px;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-family:Orbitron,sans-serif;
+  font-weight:700;
+  font-size:clamp(15px,2.5vw,18px);
+  text-transform:uppercase;
+  letter-spacing:1px;
+  transition:.3s;
+  gap:16px;
+}
+
+.faq-question:hover{
+  color:var(--cyan);
+}
+
+.faq-toggle{
+  width:30px;
+  height:30px;
+  background:rgba(0,255,255,.2);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  transition:.3s;
+  flex-shrink:0;
+}
+
+.faq-item.active .faq-toggle{
+  background:var(--cyan);
+  color:#000;
+  transform:rotate(180deg);
+}
+
+.faq-answer{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .4s ease;
+}
+
+.faq-answer-content{
+  padding:0 32px 24px;
+  color:var(--silver);
+  line-height:1.8;
+  font-size:clamp(14px,2vw,16px);
+}
+
+.faq-item.active .faq-answer{
+  max-height:500px;
+}
+
+/* CTA Section */
+.cta-section{
+  padding:100px 0;
+  position:relative;
+  overflow:hidden;
+}
+
+.cta-container{
+  max-width:1000px;
+  margin:0 auto;
+  text-align:center;
+  background:linear-gradient(135deg,rgba(0,255,255,.12),rgba(255,0,110,.12));
+  backdrop-filter:blur(30px);
+  border:2px solid var(--mist);
+  border-radius:36px;
+  padding:clamp(60px,10vw,90px) clamp(30px,8vw,70px);
+  position:relative;
+  overflow:hidden;
+}
+
+.cta-container::before{
+  content:'';
+  position:absolute;
+  inset:-150%;
+  background:radial-gradient(circle,rgba(0,255,255,.2),transparent 60%);
+  animation:rotateCta 12s linear infinite;
+}
+
+@keyframes rotateCta{
+  to{transform:rotate(360deg)}
+}
+
+.cta-content{
+  position:relative;
+  z-index:1;
+}
+
+.cta-container h2{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(32px,5vw,52px);
+  font-weight:900;
+  margin-bottom:24px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--hot));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.cta-container p{
+  font-size:clamp(16px,2.5vw,20px);
+  color:var(--silver);
+  margin-bottom:40px;
+  max-width:700px;
+  margin-left:auto;
+  margin-right:auto;
+  line-height:1.7;
+}
+
+.cta-actions{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+/* Footer */
+footer{
+  background:rgba(10,14,26,.98);
+  backdrop-filter:blur(30px);
+  border-top:1px solid var(--mist);
+  padding:70px 0 35px;
+  margin-top:100px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:60px;
+  margin-bottom:60px;
+}
+
+.footer-brand h3{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(22px,3vw,26px);
+  font-weight:700;
+  margin-bottom:18px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--electric));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.footer-brand p{
+  color:var(--silver);
+  line-height:1.8;
+  margin-bottom:28px;
+  font-size:clamp(13px,2vw,15px);
+}
+
+.social-links{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.social-link{
+  width:46px;
+  height:46px;
+  background:var(--ghost);
+  border:1px solid var(--mist);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  color:var(--silver);
+  transition:.3s;
+  font-size:20px;
+}
+
+.social-link:hover{
+  background:linear-gradient(135deg,var(--cyan),var(--electric));
+  color:#000;
+  transform:translateY(-4px);
+  border-color:transparent;
+  box-shadow:0 8px 25px rgba(0,255,255,.4);
+}
+
+.footer-section h4{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(16px,2.5vw,18px);
+  font-weight:700;
+  margin-bottom:20px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.footer-links{
+  list-style:none;
+}
+
+.footer-links li{
+  margin-bottom:14px;
+}
+
+.footer-links a{
+  color:var(--silver);
+  text-decoration:none;
+  transition:.3s;
+  display:inline-block;
+  font-size:clamp(13px,2vw,15px);
+}
+
+.footer-links a:hover{
+  color:var(--cyan);
+  transform:translateX(6px);
+}
+
+.footer-bottom{
+  padding-top:35px;
+  border-top:1px solid var(--mist);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:var(--silver);
+  font-size:clamp(12px,1.8vw,14px);
+  font-family:JetBrains Mono,monospace;
+  flex-wrap:wrap;
+  gap:16px;
+}
+
+.footer-bottom a{
+  color:var(--cyan);
+  text-decoration:none;
+  font-weight:700;
+}
+
+.footer-bottom a:hover{
+  text-decoration:underline;
+}
+
+/* Scroll to Top */
+.scroll-top{
+  position:fixed;
+  bottom:35px;
+  right:35px;
+  width:56px;
+  height:56px;
+  background:linear-gradient(135deg,var(--cyan),var(--electric));
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#000;
+  font-size:22px;
+  font-weight:900;
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transition:all .3s ease;
+  z-index:999;
+  box-shadow:0 10px 35px rgba(0,255,255,.5);
+}
+
+.scroll-top.visible{
+  opacity:1;
+  pointer-events:all;
+}
+
+.scroll-top:hover{
+  transform:translateY(-6px) scale(1.1);
+  box-shadow:0 14px 50px rgba(0,255,255,.8);
+}
+
+/* Responsive Design - IMPROVED */
+@media (max-width:1200px){
+  .hero-grid{
+    grid-template-columns:1fr;
+    gap:50px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .footer-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:40px;
   }
 }
 
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--accent-cyan-soft);
-  border: 1px solid rgba(0, 217, 255, 0.2);
-  border-radius: 50px;
-  padding: 10px 24px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent-cyan);
-  margin-bottom: 32px;
-  letter-spacing: 0.5px;
-}
-
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--accent-green);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-  box-shadow: 0 0 12px var(--accent-green);
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
+@media (max-width:768px){
+  body{
+    cursor:default;
   }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.2);
+  
+  .cursor,
+  .cursor-follower{
+    display:none;
   }
-}
-
-.hero h1 {
-  font-size: clamp(36px, 6vw, 64px);
-  font-weight: 800;
-  line-height: 1.15;
-  margin-bottom: 24px;
-  letter-spacing: -1px;
-  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, var(--accent-cyan), #00ff88);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero p {
-  font-size: 18px;
-  line-height: 1.8;
-  color: var(--text-secondary);
-  margin-bottom: 40px;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 14px 32px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 15px;
-  letter-spacing: 0.3px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-  color: #000;
-  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
-}
-
-.btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0, 217, 255, 0.4);
-}
-
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
-  border: 1px solid var(--border-medium);
-  backdrop-filter: blur(10px);
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-3px);
-}
-
-/* ==================== STATS BANNER ==================== */
-.stats-banner {
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 40px;
-  margin: 80px 0;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 32px;
-}
-
-.stat-item {
-  text-align: center;
-}
-
-.stat-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: var(--text-tertiary);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 12px;
-}
-
-.stat-value {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--accent-cyan);
-  letter-spacing: -0.5px;
-}
-
-/* ==================== SECTIONS ==================== */
-section {
-  padding: 100px 0;
-  position: relative;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 80px;
-}
-
-.section-label {
-  display: inline-block;
-  background: rgba(255, 61, 87, 0.1);
-  border: 1px solid rgba(255, 61, 87, 0.2);
-  border-radius: 50px;
-  padding: 8px 20px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent-red);
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.section-title {
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 800;
-  margin-bottom: 20px;
-  letter-spacing: -1px;
-  line-height: 1.2;
-}
-
-.section-desc {
-  font-size: 17px;
-  color: var(--text-secondary);
-  max-width: 700px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-
-/* ==================== FEATURE CARDS ==================== */
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-}
-
-.feature-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 36px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-}
-
-.feature-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--border-medium);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
-}
-
-.feature-icon {
-  font-size: 40px;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.feature-card h3 {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  letter-spacing: -0.3px;
-}
-
-.feature-card p {
-  color: var(--text-secondary);
-  line-height: 1.7;
-  font-size: 15px;
-}
-
-/* ==================== FACTION CARDS ==================== */
-.factions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 28px;
-}
-
-.faction-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-}
-
-.faction-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--border-medium);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-}
-
-.faction-img {
-  height: 200px;
-  background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(0, 255, 136, 0.15));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 64px;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.faction-content {
-  padding: 32px;
-}
-
-.faction-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  margin-bottom: 16px;
-  gap: 16px;
-}
-
-.faction-card h3 {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
-}
-
-.faction-badge {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-  color: #000;
-  white-space: nowrap;
-  letter-spacing: 0.5px;
-}
-
-.faction-card p {
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 24px;
-  font-size: 14px;
-}
-
-.faction-stats {
-  display: flex;
-  gap: 20px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.faction-stat {
-  flex: 1;
-  text-align: center;
-}
-
-.faction-stat-num {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--accent-cyan);
-  display: block;
-  margin-bottom: 4px;
-}
-
-.faction-stat-lbl {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-/* ==================== MEMBERSHIP CARDS ==================== */
-.memberships-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.member-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  border: 2px solid var(--border-subtle);
-  border-radius: 20px;
-  padding: 40px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-
-.member-card:hover {
-  transform: translateY(-10px);
-  border-color: var(--border-medium);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
-}
-
-.member-card.featured {
-  background: linear-gradient(135deg, rgba(0, 217, 255, 0.08), rgba(0, 255, 136, 0.08));
-  border-color: var(--accent-cyan);
-}
-
-.member-card.featured::after {
-  content: '⚡ MÁS POPULAR';
-  position: absolute;
-  top: 24px;
-  right: -38px;
-  background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-  color: #000;
-  padding: 6px 48px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  transform: rotate(45deg);
-  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.4);
-}
-
-.member-header {
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.member-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.member-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: -0.5px;
-}
-
-.member-price {
-  font-size: 48px;
-  font-weight: 800;
-  color: var(--accent-cyan);
-  margin: 24px 0;
-  letter-spacing: -1px;
-}
-
-.member-price small {
-  font-size: 20px;
-  opacity: 0.8;
-}
-
-.member-benefits {
-  list-style: none;
-  margin: 32px 0;
-}
-
-.member-benefits li {
-  padding: 12px 0;
-  color: var(--text-secondary);
-  position: relative;
-  padding-left: 32px;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.member-benefits li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  width: 22px;
-  height: 22px;
-  background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #000;
-  font-weight: 700;
-  font-size: 12px;
-}
-
-.btn-member {
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-  color: #000;
-  text-align: center;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.3px;
-  display: block;
-  margin-top: 32px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: none;
-  cursor: pointer;
-}
-
-.btn-member:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0, 217, 255, 0.4);
-}
-
-/* ==================== TESTIMONIAL CARDS ==================== */
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 28px;
-}
-
-.testimonial-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 32px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-}
-
-.testimonial-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--border-medium);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
-}
-
-.testimonial-rating {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 16px;
-}
-
-.star {
-  color: var(--accent-gold);
-  font-size: 18px;
-}
-
-.testimonial-content {
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 24px;
-  font-size: 15px;
-}
-
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.author-avatar {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 18px;
-  color: #000;
-}
-
-.author-info h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  letter-spacing: -0.2px;
-}
-
-.author-info p {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-/* ==================== FAQ ==================== */
-.faq-container {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.faq-item {
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  margin-bottom: 16px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.faq-item:hover {
-  border-color: var(--border-medium);
-}
-
-.faq-question {
-  padding: 24px 28px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: -0.2px;
-  transition: color 0.3s ease;
-}
-
-.faq-question:hover {
-  color: var(--accent-cyan);
-}
-
-.faq-toggle {
-  width: 28px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-
-.faq-item.active .faq-toggle {
-  background: var(--accent-cyan);
-  color: #000;
-  transform: rotate(180deg);
-}
-
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.faq-answer-content {
-  padding: 0 28px 24px;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  font-size: 15px;
-}
-
-.faq-item.active .faq-answer {
-  max-height: 600px;
-}
-
-/* ==================== CTA SECTION ==================== */
-.cta-section {
-  padding: 120px 0;
-}
-
-.cta-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  text-align: center;
-  background: var(--bg-card);
-  backdrop-filter: blur(30px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 24px;
-  padding: 80px 60px;
-}
-
-.cta-container h2 {
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 800;
-  margin-bottom: 20px;
-  letter-spacing: -1px;
-}
-
-.cta-container p {
-  font-size: 17px;
-  color: var(--text-secondary);
-  margin-bottom: 40px;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.7;
-}
-
-.cta-actions {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* ==================== FOOTER ==================== */
-footer {
-  background: var(--bg-secondary);
-  border-top: 1px solid var(--border-subtle);
-  padding: 80px 0 40px;
-  margin-top: 100px;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 60px;
-  margin-bottom: 60px;
-}
-
-.footer-brand h3 {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  letter-spacing: -0.5px;
-}
-
-.footer-brand p {
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 28px;
-  font-size: 14px;
-}
-
-.social-links {
-  display: flex;
-  gap: 12px;
-}
-
-.social-link {
-  width: 42px;
-  height: 42px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: var(--text-secondary);
-  transition: all 0.3s ease;
-}
-
-.social-link:hover {
-  background: var(--accent-cyan);
-  color: #000;
-  transform: translateY(-3px);
-  border-color: transparent;
-}
-
-.footer-section h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  letter-spacing: -0.2px;
-}
-
-.footer-links {
-  list-style: none;
-}
-
-.footer-links li {
-  margin-bottom: 12px;
-}
-
-.footer-links a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  display: inline-block;
-  font-size: 14px;
-}
-
-.footer-links a:hover {
-  color: var(--accent-cyan);
-  transform: translateX(4px);
-}
-
-.footer-bottom {
-  padding-top: 32px;
-  border-top: 1px solid var(--border-subtle);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--text-tertiary);
-  font-size: 13px;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.footer-bottom a {
-  color: var(--accent-cyan);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.scroll-top {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  width: 52px;
-  height: 52px;
-  background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #000;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 999;
-  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
-}
-
-.scroll-top.visible {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.scroll-top:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(0, 217, 255, 0.4);
-}
-
-/* ==================== RESPONSIVE ==================== */
-@media (max-width: 1024px) {
-  .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
+  
+  .nav-content{
+    padding:10px 20px;
   }
-}
-
-@media (max-width: 768px) {
-  .hamburger {
-    display: flex;
+  
+  .brand-text small{
+    display:none;
   }
-
-  .nav-links {
-    position: fixed;
-    top: 76px;
-    left: 0;
-    right: 0;
-    background: rgba(10, 14, 26, 0.98);
-    backdrop-filter: blur(30px);
-    border-bottom: 1px solid var(--border-subtle);
-    flex-direction: column;
-    padding: 20px;
-    gap: 0;
-    transform: translateY(-100%);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  .nav-links{
+    position:fixed;
+    top:75px;
+    left:0;
+    right:0;
+    background:rgba(10,14,26,.99);
+    backdrop-filter:blur(30px);
+    border-bottom:1px solid var(--mist);
+    flex-direction:column;
+    padding:20px;
+    gap:0;
+    transform:translateY(-100%);
+    opacity:0;
+    pointer-events:none;
+    transition:all .3s ease;
+    max-height:calc(100vh - 75px);
+    overflow-y:auto;
   }
-
-  .nav-links.active {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: all;
+  
+  .nav-links.active{
+    transform:translateY(0);
+    opacity:1;
+    pointer-events:all;
   }
-
-  .nav-links li {
-    width: 100%;
+  
+  .nav-links li{
+    width:100%;
   }
-
-  .nav-links a {
-    display: block;
-    padding: 16px 20px;
-    width: 100%;
-    border-radius: 8px;
+  
+  .nav-links a{
+    display:block;
+    padding:16px;
+    width:100%;
+    text-align:center;
   }
-
-  .hero {
-    padding: 100px 0 60px;
-    background-attachment: scroll;
+  
+  .mobile-toggle{
+    display:flex;
   }
-
-  .hero h1 {
-    font-size: 36px;
+  
+  .hero{
+    padding:120px 0 80px;
+    min-height:auto;
   }
-
-  .hero p {
-    font-size: 16px;
+  
+  .stats-mega{
+    padding:28px 20px;
   }
-
-  .hero-actions {
-    flex-direction: column;
+  
+  .stats-grid{
+    grid-template-columns:1fr;
+    gap:12px;
   }
-
-  .btn {
-    width: 100%;
-    justify-content: center;
+  
+  .stat-box{
+    min-height:100px;
+    padding:16px;
   }
-
-  section {
-    padding: 60px 0;
+  
+  .live-grid{
+    grid-template-columns:1fr;
+    gap:20px;
   }
-
-  .section-header {
-    margin-bottom: 50px;
-  }
-
+  
   .features-grid,
   .factions-grid,
   .memberships-grid,
-  .testimonials-grid {
-    grid-template-columns: 1fr;
+  .testimonials-grid{
+    grid-template-columns:1fr;
   }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+  
+  .member-card.featured{
+    transform:scale(1);
   }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
+  
+  .footer-grid{
+    grid-template-columns:1fr;
+    gap:40px;
   }
-
-  .footer-bottom {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
+  
+  .footer-bottom{
+    flex-direction:column;
+    text-align:center;
+    gap:12px;
   }
-
-  .cta-container {
-    padding: 60px 32px;
+  
+  .cta-actions{
+    flex-direction:column;
   }
-
-  .member-card.featured {
-    transform: scale(1);
+  
+  .btn{
+    width:100%;
+  }
+  
+  section{
+    padding:70px 0;
+  }
+  
+  .scroll-top{
+    bottom:25px;
+    right:25px;
+    width:50px;
+    height:50px;
+    font-size:20px;
   }
 }
 
-@media (max-width: 480px) {
-  .container {
-    padding: 0 16px;
+@media (max-width:480px){
+  .container{
+    padding:0 16px;
   }
-
-  .nav-content {
-    padding: 14px 16px;
+  
+  .hero-actions{
+    width:100%;
   }
-
-  .brand-text h1 {
-    font-size: 16px;
+  
+  .faq-question{
+    padding:18px 20px;
   }
-
-  .brand-text small {
-    font-size: 10px;
+  
+  .faq-answer-content{
+    padding:0 20px 20px;
   }
-
-  .logo-circle {
-    width: 42px;
-    height: 42px;
-    font-size: 14px;
+  
+  .faction-content{
+    padding:24px;
   }
-
-  .stats-banner {
-    padding: 28px 20px;
+  
+  .member-card{
+    padding:28px;
   }
-
-  .feature-card,
-  .faction-content,
-  .member-card,
-  .testimonial-card {
-    padding: 24px;
+  
+  .live-banner{
+    padding:24px 16px;
   }
+}
 
-  .cta-container {
-    padding: 48px 24px;
+/* Print Styles */
+@media print{
+  .loading-screen,
+  nav,
+  .scroll-top,
+  canvas{
+    display:none;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
   }
 }
 </style>
 </head>
 <body>
 
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader"></div>
+  <div class="loading-text">CARGANDO...</div>
+</div>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<canvas id="particles"></canvas>
+
+<div class="wrap">
 <nav id="navbar">
-  <div class="nav-content">
-    <a href="#inicio" class="logo-box">
-      <div class="logo-circle">AR</div>
-      <div class="brand-text">
-        <h1>Argentina Roleplay</h1>
-        <small>Comunidad Profesional ER:LC</small>
-      </div>
-    </a>
-    <button class="hamburger" id="hamburger" aria-label="Menú">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#inicio" class="active">Inicio</a></li>
-      <li><a href="#nosotros">Nosotros</a></li>
-      <li><a href="#facciones">Facciones</a></li>
-      <li><a href="#membresias">Membresías</a></li>
-      <li><a href="#direccion">Dirección</a></li>
-      <li><a href="#faq">F.A.Q</a></li>
-      <li><a href="https://discord.gg/argrp" class="cta-btn" target="_blank">Unirse al Discord</a></li>
-    </ul>
-  </div>
+<div class="nav-content">
+<a href="#inicio" class="logo-box">
+<div class="logo-circle">AR</div>
+<div class="brand-text">
+<h1>Argentina Roleplay</h1>
+<small>Página oficial de Argentina Roleplay | ER:LC</small>
+</div>
+</a>
+<ul class="nav-links" id="navLinks">
+<li><a href="#inicio" class="active">Inicio</a></li>
+<li><a href="#features">Nosotros</a></li>
+<li><a href="#factions">Facciones</a></li>
+<li><a href="#memberships">Membresías</a></li>
+<li><a href="#testimonials">Dirección</a></li>
+<li><a href="#faq">F.A.Q</a></li>
+<li><a href="https://discord.gg/argrp" class="cta-btn" target="_blank" rel="noopener noreferrer">Únete a nuestro Discord</a></li>
+</ul>
+<button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false">
+<span></span><span></span><span></span>
+</button>
+</div>
 </nav>
 
 <section id="inicio" class="hero">
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span class="pulse-dot"></span>
-        +1600 Miembros Activos
-      </div>
-      <h1>DOMINA EL MEJOR <span class="gradient-text">ROLEPLAY</span> ARGENTINO</h1>
-      <p>Únete a esta experiencia increíble, contamos con distintas facciones que abajo dejaremos más información sobre la comunidad y sobre nosotros, así mismo te dejamos algunas preguntas frecuentes que puedes revisar.</p>
-      <div class="hero-actions">
-        <a href="https://discord.gg/argrp" class="btn btn-primary" target="_blank">
-          <span>Unirse al Discord</span>
-        </a>
-        <a href="https://www.canva.com/design/DAG1z80J_O8/dAimr2cXpgcwnpMevlf41w/edit" class="btn btn-secondary" target="_blank">
-          <span>Normativas Generales</span>
-        </a>
-      </div>
-    </div>
-  </div>
+<div class="container">
+<div class="hero-grid">
+<div>
+<div class="hero-badge">
+<span class="pulse-dot"></span>
++1600 Miembros Activos
+</div>
+<h1>DOMINA EL MEJOR <span class="gradient-text">ROLEPLAY</span> ARGENTINO</h1>
+<p>Únete a esta experiencia increíble, contamos con distintas facciones que abajo dejaremos más información sobre la comunidad y sobre nosotros, así mismo te dejamos algunas preguntas frecuentes que puedes revisar.</p>
+<div class="hero-actions">
+<a href="https://discord.gg/argrp" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+<span>Unirse al Discord</span>
+</a>
+<a href="https://www.canva.com/design/DAG1z80J_O8/dAimr2cXpgcwnpMevlf41w/edit" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+<span>Normativas Generales</span>
+</a>
+</div>
+</div>
+<div class="hero-visual">
+<div class="stats-mega">
+<h3>¿Te sientes listo?</h3>
+<p>Crea tu personaje, saca tu cédula y prepárate para la mejor experiencia.</p>
+<div class="stats-grid">
+<div class="stat-box">
+<span class="stat-number" data-target="1600">+1600</span>
+<span class="stat-label">Miembros</span>
+</div>
+<div class="stat-box">
+<span class="stat-number">Diarias</span>
+<span class="stat-label">Aperturas</span>
+</div>
+<div class="stat-box">
+<span class="stat-number">40/40</span>
+<span class="stat-label">Servidor Completo</span>
+</div>
+<div class="stat-box">
+<span class="stat-number">Semi-Serio</span>
+<span class="stat-label">Roleplay de Calidad</span>
+</div>
+</div>
+<a href="https://discord.gg/argrp" class="btn btn-primary" target="_blank" rel="noopener noreferrer" style="width:100%;justify-content:center;margin-top:16px">
+<span>UNIRSE AL DISCORD</span>
+</a>
+</div>
+</div>
+</div>
+</div>
 </section>
 
 <section>
-  <div class="container">
-    <div class="stats-banner">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-label">
-            <span class="pulse-dot"></span>
-            ACTIVOS EN ER:LC
-          </div>
-          <div class="stat-value">40/40</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">
-            <span class="pulse-dot"></span>
-            HORARIOS APERTURA
-          </div>
-          <div class="stat-value">Por la tarde</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">
-            <span class="pulse-dot"></span>
-            ECONOMÍA
-          </div>
-          <div class="stat-value">100% Balanceada</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">
-            <span class="pulse-dot"></span>
-            EVENTOS
-          </div>
-          <div class="stat-value">3/MES</div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="container">
+<div class="live-banner">
+<div class="live-grid">
+<div class="live-stat">
+<div class="live-label">
+<span class="live-dot"></span>
+ACTIVOS EN ER:LC
+</div>
+<div class="live-value">40/40</div>
+</div>
+<div class="live-stat">
+<div class="live-label">
+<span class="live-dot"></span>
+HORARIOS
+</div>
+<div class="live-value">Tardes</div>
+</div>
+<div class="live-stat">
+<div class="live-label">
+<span class="live-dot"></span>
+ECONOMÍA
+</div>
+<div class="live-value">100%</div>
+</div>
+<div class="live-stat">
+<div class="live-label">
+<span class="live-dot"></span>
+EVENTOS
+</div>
+<div class="live-value">3/MES</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 
-<section id="nosotros">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">SOBRE NOSOTROS</span>
-      <h2 class="section-title">¿Por qué somos únicos?</h2>
-      <p class="section-desc">Descubre todo sobre nosotros a continuación.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <span class="feature-icon">👮</span>
-        <h3>Facciones Legales</h3>
-        <p>En Argentina Roleplay tenemos facciones increíbles como: Policía De La Ciudad, Gendarmería Nacional, Policía Federal Argentina, Brigada Especial Halcón y mucho más!</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🎭</span>
-        <h3>Organizaciones Criminales</h3>
-        <p>Actualmente contamos con Bandas criminales que son la "chispa" del rol, ellos se encargan de cometer robos, secuestros, atentados, y más.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🎉</span>
-        <h3>Eventos Mensuales</h3>
-        <p>En nuestra comunidad realizamos eventos con premios increíbles, hacemos aproximadamente 3 eventos al mes, únete y sé el principal ganador.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">💼</span>
-        <h3>Economía Balanceada</h3>
-        <p>Sistema de economía completo, con recompensas de trabajos increíbles y sistema de transferencias, contamos con sueldos mínimos de hasta $4,000 pesos, ¿qué esperas para unirte?</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🏆</span>
-        <h3>Beneficios</h3>
-        <p>Tenemos beneficios por Membresías, Boost y donaciones increíbles, abajo te saldrá más información respecto a Membresías.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🤝</span>
-        <h3>Equipo de STAFF</h3>
-        <p>Equipo de Moderación completamente capacitado para resolver situaciones que pasen dentro de la comunidad, respeta las reglas o habrá consecuencias. No todo es sanciones, ellos se encargan de que te lleves una buena experiencia.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🔒</span>
-        <h3>Ambiente Seguro</h3>
-        <p>En nuestra comunidad nos encargamos de que todos se lleven una experiencia única, por eso es que prohibimos las faltas de respeto y te damos un ámbito seguro.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">⚡</span>
-        <h3>Actualizaciones Constantes</h3>
-        <p>Cada día traemos actualizaciones perfectas a nuestra comunidad, ¿Qué esperas para formar parte de nosotros y generar un buen entorno de roleplay divertido?</p>
-      </div>
-    </div>
-  </div>
+<section id="features">
+<div class="container">
+<div class="section-header">
+<span class="section-label">SOBRE NOSOTROS</span>
+<h2 class="section-title">¿POR QUÉ SOMOS ÚNICOS?</h2>
+<p class="section-desc">Descubre todo sobre nosotros a continuación.</p>
+</div>
+<div class="features-grid">
+<div class="feature-card">
+<div class="feature-icon">👮</div>
+<h3>Facciones Legales</h3>
+<p>En Argentina Roleplay tenemos facciones increíbles como: Policía De La Ciudad, Gendarmería Nacional, Policía Federal Argentina, Brigada Especial Halcón y mucho más!</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🎭</div>
+<h3>Organizaciones Criminales</h3>
+<p>Actualmente contamos con Bandas criminales que son la "chispa" del rol, ellos se encargan de cometer robos, secuestros, atentados, y más.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🎉</div>
+<h3>Eventos Mensuales</h3>
+<p>En nuestra comunidad realizamos eventos con premios increíbles, hacemos aproximadamente 3 eventos al mes, únete y sé el principal ganador.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">💼</div>
+<h3>Economía Balanceada</h3>
+<p>Sistema de economía completo, con recompensas de trabajos increíbles y sistema de transferencias, contamos con sueldos mínimos de hasta $4,000 pesos, ¿qué esperas para unirte?</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🏆</div>
+<h3>Beneficios</h3>
+<p>Tenemos beneficios por Membresías, Boost y donaciones increíbles, abajo te saldrá más información respecto a Membresías.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🤝</div>
+<h3>Equipo de STAFF</h3>
+<p>Equipo de Moderación completamente capacitado para resolver situaciones que pasen dentro de la comunidad, respeta las reglas o habrá consecuencias. No todo es sanciones, ellos se encargan de que te lleves una buena experiencia.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🔒</div>
+<h3>Ambiente Seguro</h3>
+<p>En nuestra comunidad nos encargamos de que todos se lleven una experiencia única, por eso es que prohibimos las faltas de respeto y te damos un ámbito seguro.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">⚡</div>
+<h3>Actualizaciones Constantes</h3>
+<p>Cada día traemos actualizaciones perfectas a nuestra comunidad, ¿Qué esperas para formar parte de nosotros y generar un buen entorno de roleplay divertido?</p>
+</div>
+</div>
+</div>
 </section>
 
-<section id="facciones">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">FACCIONES Y ORGANIZACIONES</span>
-      <h2 class="section-title">Elige tu destino</h2>
-      <p class="section-desc">Legal o ilegal, héroe o villano. Tu camino te espera</p>
-    </div>
-    <div class="factions-grid">
-      <div class="faction-card">
-        <div class="faction-img">👮‍♂️</div>
-        <div class="faction-content">
-          <div class="faction-header">
-            <h3>PDLC | GNA | PFA | BEH</h3>
-            <span class="faction-badge">LEGALES</span>
-          </div>
-          <p>Patrulla, encarcela, aplica cargos, investiga asesinatos y salva la ciudad con tus propias manos.</p>
-          <div class="faction-stats">
-            <div class="faction-stat">
-              <span class="faction-stat-num">DIARIAS</span>
-              <span class="faction-stat-lbl">Postulaciones</span>
-            </div>
-            <div class="faction-stat">
-              <span class="faction-stat-num">+10</span>
-              <span class="faction-stat-lbl">Puestos</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="faction-card">
-        <div class="faction-img">🎭</div>
-        <div class="faction-content">
-          <div class="faction-header">
-            <h3>Organizaciones Criminales</h3>
-            <span class="faction-badge" style="background:linear-gradient(135deg,#ff3d57,#ff6b35)">ILEGAL</span>
-          </div>
-          <p>Construye tu imperio criminal, forma bandas, domina las calles y transforma el caos completo, perfecto si te gusta la adrenalina.</p>
-          <div class="faction-stats">
-            <div class="faction-stat">
-              <span class="faction-stat-num">+10</span>
-              <span class="faction-stat-lbl">Cupos</span>
-            </div>
-            <div class="faction-stat">
-              <span class="faction-stat-num">+5</span>
-              <span class="faction-stat-lbl">Carteles</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="faction-card">
-        <div class="faction-img">💼</div>
-        <div class="faction-content">
-          <div class="faction-header">
-            <h3>Empresas</h3>
-            <span class="faction-badge" style="background:linear-gradient(135deg,#ffc107,#ff6b35)">CIVIL</span>
-          </div>
-          <p>Crea tu empresa propia y profesional, actualmente tenemos sobre medios de comunicación, seguridad privada, restaurantes de comida, investigaciones y más.</p>
-          <div class="faction-stats">
-            <div class="faction-stat">
-              <span class="faction-stat-num">+5</span>
-              <span class="faction-stat-lbl">Cupos</span>
-            </div>
-            <div class="faction-stat">
-              <span class="faction-stat-num">+5</span>
-              <span class="faction-stat-lbl">Empresas</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<section id="factions">
+<div class="container">
+<div class="section-header">
+<span class="section-label">FACCIONES Y ORGANIZACIONES</span>
+<h2 class="section-title">ELIGE TU DESTINO</h2>
+<p class="section-desc">Legal o ilegal, héroe o villano. Tu camino te espera</p>
+</div>
+<div class="factions-grid">
+<div class="faction-card">
+<div class="faction-img">👮‍♂️</div>
+<div class="faction-content">
+<div class="faction-header">
+<h3>PDLC | GNA | PFA | BEH</h3>
+<span class="faction-badge">LEGALES</span>
+</div>
+<p>Patrulla, encarcela, aplica cargos, investiga asesinatos y salva la ciudad con tus propias manos.</p>
+<div class="faction-stats">
+<div class="faction-stat">
+<span class="faction-stat-num">Diarias</span>
+<span class="faction-stat-lbl">Postulaciones</span>
+</div>
+<div class="faction-stat">
+<span class="faction-stat-num">+10</span>
+<span class="faction-stat-lbl">Puestos</span>
+</div>
+</div>
+</div>
+</div>
+<div class="faction-card">
+<div class="faction-img">🎭</div>
+<div class="faction-content">
+<div class="faction-header">
+<h3>Organizaciones Criminales</h3>
+<span class="faction-badge" style="background:linear-gradient(135deg,#ff006e,#ff6b35)">ILEGAL</span>
+</div>
+<p>Construye tu imperio criminal, forma bandas, domina las calles y transforma el caos completo, perfecto si te gusta la adrenalina.</p>
+<div class="faction-stats">
+<div class="faction-stat">
+<span class="faction-stat-num">+10</span>
+<span class="faction-stat-lbl">Cupos</span>
+</div>
+<div class="faction-stat">
+<span class="faction-stat-num">+5</span>
+<span class="faction-stat-lbl">Carteles</span>
+</div>
+</div>
+</div>
+</div>
+<div class="faction-card">
+<div class="faction-img">💼</div>
+<div class="faction-content">
+<div class="faction-header">
+<h3>Empresas</h3>
+<span class="faction-badge" style="background:linear-gradient(135deg,#ffd700,#ff6b35)">CIVIL</span>
+</div>
+<p>Crea tu empresa propia y profesional, actualmente tenemos sobre medios de comunicación, seguridad privada, restaurantes de comida, investigaciones y más.</p>
+<div class="faction-stats">
+<div class="faction-stat">
+<span class="faction-stat-num">+5</span>
+<span class="faction-stat-lbl">Cupos</span>
+</div>
+<div class="faction-stat">
+<span class="faction-stat-num">+5</span>
+<span class="faction-stat-lbl">Empresas</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 
-<section id="membresias">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">MEMBRESÍAS</span>
-      <h2 class="section-title">Ayúdanos a crecer</h2>
-      <p class="section-desc">Recompensas increíbles por Membresías y Boosts.</p>
-    </div>
-    <div class="memberships-grid">
-      <div class="member-card">
-        <div class="member-header">
-          <span class="member-icon">♦️</span>
-          <h3 class="member-title">Membresía 1</h3>
-        </div>
-        <div class="member-price">50 <small>Robux</small></div>
-        <ul class="member-benefits">
-          <li>$50,000 en la economía</li>
-          <li>Rol exclusivo de Membresía 1</li>
-          <li>Canales especiales</li>
-          <li>Posibilidades únicas</li>
-        </ul>
-        <a href="https://www.roblox.com/game-pass/954298347" class="btn-member" target="_blank">
-          <span>COMPRAR MEMBRESÍA 1</span>
-        </a>
-      </div>
-      <div class="member-card">
-        <div class="member-header">
-          <span class="member-icon">🍀</span>
-          <h3 class="member-title">Membresía 2</h3>
-        </div>
-        <div class="member-price">100 <small>Robux</small></div>
-        <ul class="member-benefits">
-          <li>$100,000 en la economía</li>
-          <li>Rol exclusivo Membresía 2</li>
-          <li>Enviar imágenes en Chat</li>
-          <li>Sorteos exclusivos</li>
-          <li>Prioridad en eventos</li>
-        </ul>
-        <a href="https://www.roblox.com/game-pass/854716479" class="btn-member" target="_blank">
-          <span>COMPRAR MEMBRESÍA 2</span>
-        </a>
-      </div>
-      <div class="member-card featured">
-        <div class="member-header">
-          <span class="member-icon">📀</span>
-          <h3 class="member-title">Membresía 3</h3>
-        </div>
-        <div class="member-price">250 <small>Robux</small></div>
-        <ul class="member-benefits">
-          <li>$175,000 en la economía</li>
-          <li>Rol exclusivo Membresía 3</li>
-          <li>Acceso a 1 trabajo adicional</li>
-          <li>Cupo facción ilegal</li>
-          <li>Beneficios anteriores</li>
-        </ul>
-        <a href="https://www.roblox.com/game-pass/854400540" class="btn-member" target="_blank">
-          <span>COMPRAR MEMBRESÍA 3</span>
-        </a>
-      </div>
-      <div class="member-card">
-        <div class="member-header">
-          <span class="member-icon">💷</span>
-          <h3 class="member-title">Membresía 4</h3>
-        </div>
-        <div class="member-price">500 <small>Robux</small></div>
-        <ul class="member-benefits">
-          <li>$250,000 en la economía</li>
-          <li>Rol exclusivo Membresía 4</li>
-          <li>Cupo empresa GRATIS</li>
-          <li>Todos los anteriores</li>
-          <li>Acceso a Chat VIP</li>
-          <li>Cupo de evento</li>
-        </ul>
-        <a href="https://www.roblox.com/game-pass/854768466" class="btn-member" target="_blank">
-          <span>COMPRAR MEMBRESÍA 4</span>
-        </a>
-      </div>
-    </div>
-  </div>
+<section id="memberships">
+<div class="container">
+<div class="section-header">
+<span class="section-label">MEMBRESÍAS</span>
+<h2 class="section-title">AYÚDANOS A CRECER</h2>
+<p class="section-desc">Recompensas increíbles por Membresías y Boost´s.</p>
+</div>
+<div class="memberships-grid">
+<div class="member-card">
+<div class="member-header">
+<div class="member-icon">♦️</div>
+<h3 class="member-title">Membresía 1</h3>
+</div>
+<div class="member-price">50 <small>Robux</small></div>
+<ul class="member-benefits">
+<li>$50,000 en la economía.</li>
+<li>Rol exclusivo de Membresía 1</li>
+<li>Canales especiales</li>
+<li>Posibilidades únicas</li>
+</ul>
+<a href="https://www.roblox.com/game-pass/954298347" class="btn-member" target="_blank" rel="noopener noreferrer">
+<span>COMPRAR MEMBRESÍA 1</span>
+</a>
+</div>
+<div class="member-card">
+<div class="member-header">
+<div class="member-icon">🍀</div>
+<h3 class="member-title">Membresía 2</h3>
+</div>
+<div class="member-price">100 <small>Robux</small></div>
+<ul class="member-benefits">
+<li>$100,000 en la economía.</li>
+<li>Rol exclusivo Membresía 2</li>
+<li>Enviar imágenes en Chat</li>
+<li>Sorteos exclusivos</li>
+<li>Prioridad en eventos</li>
+</ul>
+<a href="https://www.roblox.com/game-pass/854716479" class="btn-member" target="_blank" rel="noopener noreferrer">
+<span>COMPRAR MEMBRESÍA 2</span>
+</a>
+</div>
+<div class="member-card featured">
+<div class="member-header">
+<div class="member-icon">📀</div>
+<h3 class="member-title">Membresía 3</h3>
+</div>
+<div class="member-price">250 <small>Robux</small></div>
+<ul class="member-benefits">
+<li>$175,000 en la economía.</li>
+<li>Rol exclusivo Membresía 3</li>
+<li>Acceso a 1 trabajo adicional.</li>
+<li>Cupo facción ilegal</li>
+<li>Beneficios Anteriores</li>
+</ul>
+<a href="https://www.roblox.com/game-pass/854400540" class="btn-member" target="_blank" rel="noopener noreferrer">
+<span>COMPRAR MEMBRESÍA 3</span>
+</a>
+</div>
+<div class="member-card">
+<div class="member-header">
+<div class="member-icon">💷</div>
+<h3 class="member-title">Membresía 4</h3>
+</div>
+<div class="member-price">500 <small>Robux</small></div>
+<ul class="member-benefits">
+<li>$250,000 en la economía.</li>
+<li>Rol exclusivo Membresía 4</li>
+<li>Cupo empresa GRATIS</li>
+<li>Todos los anteriores</li>
+<li>Acceso a Chat Vip</li>
+<li>Cupo de evento</li>
+</ul>
+<a href="https://www.roblox.com/game-pass/854768466" class="btn-member" target="_blank" rel="noopener noreferrer">
+<span>COMPRAR MEMBRESÍA 4</span>
+</a>
+</div>
+</div>
+</div>
 </section>
 
-<section id="direccion">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">DIRECCIÓN GENERAL</span>
-      <h2 class="section-title">Equipo de Dirección Capacitado</h2>
-      <p class="section-desc">Ellos son la base de nuestra comunidad.</p>
-    </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-rating">
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-        </div>
-        <p class="testimonial-content">"Él es el de la gran idea de construir esta comunidad, su presencia no es diaria pero trabaja fuertemente para mantener nuestra comunidad activa, es la base del servidor."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">R</div>
-          <div class="author-info">
-            <h4>Rodri9486</h4>
-            <p>Fundador / Owner - Hoolders</p>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-rating">
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-        </div>
-        <p class="testimonial-content">"El encargado de realizar Documentos, formularios, revisar que el equipo de moderación se comporte de forma adecuada y es la mano derecha del Fundador, su presencia es diaria y es una persona divertida y con mucho humor".</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">V</div>
-          <div class="author-info">
-            <h4>Valen71</h4>
-            <p>Co-Fundador / Co-Owner - Hoolders</p>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-rating">
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-        </div>
-        <p class="testimonial-content">"Él es el encargado de controlar a la mayoría de los usuarios, encargarse de actualizaciones, reportes hacia la administración, gestionar documentos, revisar formularios y ayudar a nuestro Co-Owner".</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">S</div>
-          <div class="author-info">
-            <h4>Sr_Pan2407</h4>
-            <p>Dirección - Director Ejecutivo</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<section id="testimonials">
+<div class="container">
+<div class="section-header">
+<span class="section-label">DIRECCIÓN GENERAL</span>
+<h2 class="section-title">EQUIPO DE DIRECCIÓN CAPACITADO</h2>
+<p class="section-desc">Ellos son la base de nuestra comunidad.</p>
+</div>
+<div class="testimonials-grid">
+<div class="testimonial-card">
+<div class="testimonial-rating">
+<span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+</div>
+<p class="testimonial-content">"Él es el de la gran idea de construir esta comunidad, su presencia no es diaria pero trabaja fuertemente para mantener nuestra comunidad activa, es la base del servidor."</p>
+<div class="testimonial-author">
+<div class="author-avatar">R</div>
+<div class="author-info">
+<h4>Rodri9486</h4>
+<p>Fundador / Owner - Hoolders</p>
+</div>
+</div>
+</div>
+<div class="testimonial-card">
+<div class="testimonial-rating">
+<span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+</div>
+<p class="testimonial-content">"El encargado de realizar Documentos, formularios, revisar que el equipo de moderación se comporte de forma adecuada y es la mano derecha del Fundador, su presencia es diaria y es una persona divertida y con mucho humor".</p>
+<div class="testimonial-author">
+<div class="author-avatar">V</div>
+<div class="author-info">
+<h4>Valen71</h4>
+<p>Co-Fundador / Co-Owner - Hoolders</p>
+</div>
+</div>
+</div>
+<div class="testimonial-card">
+<div class="testimonial-rating">
+<span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+</div>
+<p class="testimonial-content">"Él es el encargado de controlar a la mayoría de los usuarios, encargarse de actualizaciones, reportes hacia la administración, gestionar documentos, revisar formularios y ayudar a nuestro Co-Owner".</p>
+<div class="testimonial-author">
+<div class="author-avatar">S</div>
+<div class="author-info">
+<h4>Sr_Pan2407</h4>
+<p>Dirección - Director Ejecutivo</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 
 <section id="faq">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">PREGUNTAS FRECUENTES</span>
-      <h2 class="section-title">Todo lo que necesitás saber</h2>
-      <p class="section-desc">Respuestas a las dudas más frecuentes en nuestra comunidad.</p>
-    </div>
-    <div class="faq-container">
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>¿Cómo empiezo en Argentina RP?</span>
-          <div class="faq-toggle">▼</div>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-content">Primero, únete a nuestro Discord oficial. Luego, lee las normativas completas, crea tu DNI de personaje siguiendo el formato y espera la aprobación de los encargados. Una vez aprobado, entras al servidor de Roblox y comienza tu aventura.</div>
-        </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>¿Necesito membresía para jugar?</span>
-          <div class="faq-toggle">▼</div>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-content">No, las membresías son completamente opcionales. Puedes disfrutar toda la experiencia gratis. Las membresías solo dan beneficios extra como dinero inicial, roles VIP´s y acceso a contenido premium.</div>
-        </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>¿Cómo me uno a una facción?</span>
-          <div class="faq-toggle">▼</div>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-content">Cada facción tiene su proceso de reclutamiento, generalmente llenas un formulario en Discord, pasas por una capacitación y cumples los requisitos específicos. Algunos roles requieren experiencia previa.</div>
-        </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>¿Hay eventos regulares?</span>
-          <div class="faq-toggle">▼</div>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-content">Sí, organizamos eventos semanales: purgas, torneos, carreras ilegales, subastas y eventos de temporada con premios exclusivos. Los anuncios se hacen en Discord con anticipación.</div>
-        </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>¿Puedo crear mi propia empresa?</span>
-          <div class="faq-toggle">▼</div>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-content">¡Absolutamente! Una vez que estés en nuestro Discord, puedes dirigirte al canal de tienda y comprar el ítem, luego abres Ticket y nuestro equipo de Soporte te enviará una plantilla.</div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="container">
+<div class="section-header">
+<span class="section-label">PREGUNTAS FRECUENTES</span>
+<h2 class="section-title">TODO LO QUE NECESITÁS SABER</h2>
+<p class="section-desc">Respuestas a las dudas más frecuentes en nuestra comunidad.</p>
+</div>
+<div class="faq-container">
+<div class="faq-item">
+<div class="faq-question">
+<span>¿Cómo empiezo en Argentina RP?</span>
+<div class="faq-toggle">▼</div>
+</div>
+<div class="faq-answer">
+<div class="faq-answer-content">Primero, únete a nuestro Discord oficial. Luego, lee las normativas completas, crea tu DNI de personaje siguiendo el formato y espera la aprobación de los encargados. Una vez aprobado, entras al servidor de Roblox y comienza tu aventura.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>¿Necesito membresía para jugar?</span>
+<div class="faq-toggle">▼</div>
+</div>
+<div class="faq-answer">
+<div class="faq-answer-content">No, las membresías son completamente opcionales. Puedes disfrutar toda la experiencia gratis. Las membresías solo dan beneficios extra como dinero inicial, roles VIP´s y acceso a contenido premium.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>¿Cómo me uno a una facción?</span>
+<div class="faq-toggle">▼</div>
+</div>
+<div class="faq-answer">
+<div class="faq-answer-content">Cada facción tiene su proceso de reclutamiento, generalmente llenas un formulario en Discord, pasas por una capacitación y cumples los requisitos específicos. Algunos roles requieren experiencia previa.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>¿Hay eventos regulares?</span>
+<div class="faq-toggle">▼</div>
+</div>
+<div class="faq-answer">
+<div class="faq-answer-content">Sí, organizamos eventos semanales: purgas, torneos, carreras ilegales, subastas y eventos de temporada con premios exclusivos. Los anuncios se hacen en Discord con anticipación.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>¿Puedo crear mi propia empresa?</span>
+<div class="faq-toggle">▼</div>
+</div>
+<div class="faq-answer">
+<div class="faq-answer-content">¡Absolutamente! Una vez que estés en nuestro Discord, puedes dirigirte al canal de tienda y comprar el ítem, luego abres Ticket y nuestro equipo de Soporte te enviará una plantilla.</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 
 <section class="cta-section">
-  <div class="container">
-    <div class="cta-container">
-      <h2>¿Listo para la acción?</h2>
-      <p>Más de 1600 jugadores ya están viviendo la experiencia. Tu leyenda comienza AHORA.</p>
-      <div class="cta-actions">
-        <a href="https://discord.gg/argrp" class="btn btn-primary" target="_blank">
-          <span>UNIRSE AL DISCORD</span>
-        </a>
-        <a href="https://www.roblox.com/es/communities/33453357/Argentina-RP-Spanish-ER-LC#!/about" class="btn btn-secondary" target="_blank">
-          <span>GRUPO OFICIAL DE ROBLOX</span>
-        </a>
-      </div>
-    </div>
-  </div>
+<div class="container">
+<div class="cta-container">
+<div class="cta-content">
+<h2>¿LISTO PARA LA ACCIÓN?</h2>
+<p>Más de 1600 jugadores ya están viviendo la experiencia. Tu leyenda comienza AHORA.</p>
+<div class="cta-actions">
+<a href="https://discord.gg/argrp" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+<span>UNIRSE AL DISCORD</span>
+</a>
+<a href="https://www.roblox.com/es/communities/33453357/Argentina-RP-Spanish-ER-LC#!/about" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+<span>GRUPO OFICIAL DE ROBLOX</span>
+</a>
+</div>
+</div>
+</div>
+</div>
 </section>
 
 <footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <h3>Argentina Roleplay</h3>
-        <p>Página web ficticia, la misma está hecha para un juego virtual de la plataforma de Roblox y Discord. Funcional desde 2026.</p>
-        <div class="social-links">
-          <a href="https://discord.gg/argrp" class="social-link" target="_blank" title="Discord">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/></svg>
-          </a>
-          <a href="https://www.roblox.com/es/communities/33453357/Argentina-RP-Spanish-ER-LC#!/about" class="social-link" target="_blank" title="Roblox">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.926 23.998L.002 18.974 5.026 0l18.922 5.026-5.022 18.972zm-9.494-8.485l3.511.928.929-3.511-3.511-.928-.929 3.511z"/></svg>
-          </a>
-        </div>
-      </div>
-      <div class="footer-section">
-        <h4>Links</h4>
-        <ul class="footer-links">
-          <li><a href="#inicio">Inicio</a></li>
-          <li><a href="#nosotros">Nosotros</a></li>
-          <li><a href="#facciones">Facciones</a></li>
-          <li><a href="#membresias">Membresías</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h4>Recursos</h4>
-        <ul class="footer-links">
-          <li><a href="https://www.canva.com/design/DAG1z80J_O8/dAimr2cXpgcwnpMevlf41w/edit" target="_blank">Normativas</a></li>
-          <li><a href="https://discord.gg/argrp" target="_blank">Soporte</a></li>
-          <li><a href="#faq">Preguntas Frecuentes</a></li>
-          <li><a href="https://discord.gg/argrp" target="_blank">Reportar Bugs</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h4>Comunidad</h4>
-        <ul class="footer-links">
-          <li><a href="https://discord.gg/argrp" target="_blank">Discord</a></li>
-          <li><a href="https://www.roblox.com/es/communities/33453357/Argentina-RP-Spanish-ER-LC#!/about" target="_blank">Grupo Roblox</a></li>
-          <li><a href="https://discord.gg/argrp" target="_blank">Eventos</a></li>
-          <li><a href="https://discord.gg/argrp" target="_blank">Actualizaciones</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; <span id="year"></span> Argentina RP — Todos los derechos reservados.</p>
-      <p>Dev: <a href="#">@vladimirfernan</a></p>
-    </div>
-  </div>
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<h3>Argentina Roleplay</h3>
+<p>Página web ficticia, la misma está hecha para un juego virtual de la plataforma de Roblox y Discord. Funcional desde 2026.</p>
+<div class="social-links">
+<a href="https://discord.gg/argrp" class="social-link" target="_blank" rel="noopener noreferrer" title="Discord" aria-label="Discord">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/></svg>
+</a>
+<a href="https://www.roblox.com/es/communities/33453357/Argentina-RP-Spanish-ER-LC#!/about" class="social-link" target="_blank" rel="noopener noreferrer" title="Roblox" aria-label="Roblox">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.926 23.998L.002 18.974 5.026 0l18.922 5.026-5.022 18.972zm-9.494-8.485l3.511.928.929-3.511-3.511-.928-.929 3.511z"/></svg>
+</a>
+</div>
+</div>
+<div class="footer-section">
+<h4>Links</h4>
+<ul class="footer-links">
+<li><a href="#inicio">Inicio</a></li>
+<li><a href="#features">Características</a></li>
+<li><a href="#factions">Facciones</a></li>
+<li><a href="#memberships">Membresías</a></li>
+</ul>
+</div>
+<div class="footer-section">
+<h4>Recursos</h4>
+<ul class="footer-links">
+<li><a href="https://www.canva.com/design/DAG1z80J_O8/dAimr2cXpgcwnpMevlf41w/edit" target="_blank" rel="noopener noreferrer">Normativas</a></li>
+<li><a href="https://discord.gg/argrp" target="_blank" rel="noopener noreferrer">Soporte</a></li>
+<li><a href="#faq">Preguntas Frecuentes</a></li>
+<li><a href="https://discord.gg/argrp" target="_blank" rel="noopener noreferrer">Reportar Bug / Errores</a></li>
+</ul>
+</div>
+<div class="footer-section">
+<h4>Comunidad</h4>
+<ul class="footer-links">
+<li><a href="https://discord.gg/argrp" target="_blank" rel="noopener noreferrer">Discord</a></li>
+<li><a href="https://www.roblox.com/es/communities/33453357/Argentina-RP-Spanish-ER-LC#!/about" target="_blank" rel="noopener noreferrer">Grupo Roblox</a></li>
+<li><a href="https://discord.gg/argrp" target="_blank" rel="noopener noreferrer">Eventos</a></li>
+<li><a href="https://discord.gg/argrp" target="_blank" rel="noopener noreferrer">Actualizaciones</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; <span id="year"></span> Argentina RP — Todos los derechos reservados, 2026.</p>
+<p>Dev: <a href="#">@vladimirfernan</a></p>
+</div>
+</div>
 </footer>
 
-<div class="scroll-top" id="scrollTop">↑</div>
+<div class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</div>
+</div>
 
 <script>
+// Year
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Navbar scroll effect
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
+// Loading Screen
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loadingScreen').classList.add('hidden');
+  },800);
 });
 
-// Hamburger menu toggle
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('navLinks');
+// Custom Cursor
+const cursor=document.getElementById('cursor');
+const cursorFollower=document.getElementById('cursorFollower');
 
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  navLinks.classList.toggle('active');
+document.addEventListener('mousemove',(e)=>{
+  cursor.style.transform=`translate(${e.clientX-10}px,${e.clientY-10}px)`;
+  setTimeout(()=>{
+    cursorFollower.style.transform=`translate(${e.clientX-20}px,${e.clientY-20}px)`;
+  },100);
 });
 
-// Close menu when clicking on a link
-navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    navLinks.classList.remove('active');
+document.querySelectorAll('a, button, .stat-box, .feature-card, .faction-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cursor.style.transform+=' scale(1.5)';
+    cursorFollower.style.transform+=' scale(1.3)';
+  });
+  el.addEventListener('mouseleave',()=>{
+    cursor.style.transform=cursor.style.transform.replace(' scale(1.5)','');
+    cursorFollower.style.transform=cursorFollower.style.transform.replace(' scale(1.3)','');
   });
 });
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    const href = this.getAttribute('href');
-    if (href !== '#') {
+// Particles
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let particles=[];
+
+class Particle{
+  constructor(){
+    this.x=Math.random()*canvas.width;
+    this.y=Math.random()*canvas.height;
+    this.vx=(Math.random()-.5)*.5;
+    this.vy=(Math.random()-.5)*.5;
+    this.size=Math.random()*2+1;
+  }
+  update(){
+    this.x+=this.vx;
+    this.y+=this.vy;
+    if(this.x<0||this.x>canvas.width)this.vx*=-1;
+    if(this.y<0||this.y>canvas.height)this.vy*=-1;
+  }
+  draw(){
+    ctx.fillStyle='rgba(0,255,255,0.4)';
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fill();
+  }
+}
+
+for(let i=0;i<80;i++){
+  particles.push(new Particle());
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener('resize',()=>{
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+});
+
+// Navbar
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  navbar.classList.toggle('scrolled',window.scrollY>50);
+});
+
+// Mobile Menu
+const mobileToggle=document.getElementById('mobileToggle');
+const navLinks=document.getElementById('navLinks');
+
+mobileToggle.addEventListener('click',()=>{
+  navLinks.classList.toggle('active');
+  mobileToggle.classList.toggle('active');
+  const expanded=navLinks.classList.contains('active');
+  mobileToggle.setAttribute('aria-expanded',expanded);
+});
+
+navLinks.querySelectorAll('a').forEach(link=>{
+  link.addEventListener('click',()=>{
+    navLinks.classList.remove('active');
+    mobileToggle.classList.remove('active');
+    mobileToggle.setAttribute('aria-expanded','false');
+  });
+});
+
+// Smooth Scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+  anchor.addEventListener('click',function(e){
+    const href=this.getAttribute('href');
+    if(href!=='#'){
       e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) {
-        const offsetTop = target.offsetTop - 76;
+      const target=document.querySelector(href);
+      if(target){
+        const offsetTop=target.offsetTop-85;
         window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
+          top:offsetTop,
+          behavior:'smooth'
         });
       }
     }
   });
 });
 
-// Active link highlighting
-const sections = document.querySelectorAll('section[id]');
-const navLinksAll = document.querySelectorAll('.nav-links a[href^="#"]');
+// Active Nav Link
+const sections=document.querySelectorAll('section[id]');
+const navLinksAll=document.querySelectorAll('.nav-links a[href^="#"]');
 
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop - 100;
-    const sectionHeight = section.clientHeight;
-    if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-      current = section.getAttribute('id');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(section=>{
+    const sectionTop=section.offsetTop-120;
+    const sectionHeight=section.clientHeight;
+    if(window.scrollY>=sectionTop&&window.scrollY<sectionTop+sectionHeight){
+      current=section.getAttribute('id');
     }
   });
   
-  navLinksAll.forEach(link => {
+  navLinksAll.forEach(link=>{
     link.classList.remove('active');
-    if (link.getAttribute('href') === '#' + current) {
+    if(link.getAttribute('href')==='#'+current){
       link.classList.add('active');
     }
   });
 });
 
-// FAQ accordion
-const faqItems = document.querySelectorAll('.faq-item');
-faqItems.forEach(item => {
-  const question = item.querySelector('.faq-question');
-  question.addEventListener('click', () => {
-    const isActive = item.classList.contains('active');
-    faqItems.forEach(faqItem => {
+// FAQ
+const faqItems=document.querySelectorAll('.faq-item');
+faqItems.forEach(item=>{
+  const question=item.querySelector('.faq-question');
+  question.addEventListener('click',()=>{
+    const isActive=item.classList.contains('active');
+    faqItems.forEach(faqItem=>{
       faqItem.classList.remove('active');
     });
-    if (!isActive) {
+    if(!isActive){
       item.classList.add('active');
     }
   });
 });
 
-// Scroll to top button
-const scrollTop = document.getElementById('scrollTop');
-window.addEventListener('scroll', () => {
-  scrollTop.classList.toggle('visible', window.scrollY > 300);
+// Scroll to Top
+const scrollTop=document.getElementById('scrollTop');
+window.addEventListener('scroll',()=>{
+  scrollTop.classList.toggle('visible',window.scrollY>300);
 });
 
-scrollTop.addEventListener('click', () => {
+scrollTop.addEventListener('click',()=>{
   window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
+    top:0,
+    behavior:'smooth'
   });
 });
 
-// Intersection Observer for fade-in animations
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
+// Intersection Observer
+const observerOptions={
+  threshold:0.1,
+  rootMargin:'0px 0px -50px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.style.opacity='1';
+      entry.target.style.transform='translateY(0)';
     }
   });
-}, observerOptions);
+},observerOptions);
 
-const animateElements = document.querySelectorAll('.feature-card, .faction-card, .member-card, .testimonial-card');
-animateElements.forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(30px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+const animateElements=document.querySelectorAll('.feature-card,.faction-card,.member-card,.testimonial-card');
+animateElements.forEach(el=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(30px)';
+  el.style.transition='opacity 0.6s ease, transform 0.6s ease';
   observer.observe(el);
 });
-</script>
 
+// Counter Animation
+const counters=document.querySelectorAll('.stat-number[data-target]');
+const counterObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const target=parseInt(entry.target.getAttribute('data-target'));
+      let count=0;
+      const duration=2000;
+      const increment=target/duration*10;
+      
+      const updateCounter=()=>{
+        count+=increment;
+        if(count<target){
+          entry.target.textContent='+'+Math.ceil(count);
+          setTimeout(updateCounter,10);
+        }else{
+          entry.target.textContent='+'+target;
+        }
+      };
+      updateCounter();
+      counterObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:0.5});
+
+counters.forEach(counter=>counterObserver.observe(counter));
+</script>
 </body>
 </html>
